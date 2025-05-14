@@ -1,38 +1,16 @@
 import { Colors } from "@/constants/Color";
+import { useAppContext } from "@/context/AppContext";
 import { ws } from "@/helpers/Dimension";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 const AuthScreen = () => {
   const hero = require("../assets/images/AuthScreenHero.png");
-  const router = useRouter();
-  const [name, setname] = useState("Tony");
-  const StoreName = async (value: string) => {
-    try {
-      if (name !== null) {
-        await AsyncStorage.setItem("@Storage_name", name);
-        router.push("/(user)/HomeScreen");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { StoreName, GetName,name, setname } = useAppContext();
 
   useEffect(() => {
-    const GetName = async () => {
-      try {
-        const value = await AsyncStorage.getItem("@Storage_name");
-        if (value !== null) {
-          router.push("/(user)/HomeScreen");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
     GetName();
-  }, [router]);
+  }, [GetName]);
   return (
     <>
       <StatusBar backgroundColor={Colors.hero_bg} />
