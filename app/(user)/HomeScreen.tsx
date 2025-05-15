@@ -1,9 +1,16 @@
+import FruitCard from "@/components/FruitCard";
 import { Colors } from "@/constants/Color";
 import { useAppContext } from "@/context/AppContext";
 import { hs, ws } from "@/helpers/Dimension";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Circle, Line, Path } from "react-native-svg";
 
@@ -126,7 +133,7 @@ const SearchArea = () => {
         </View>
         <TextInput
           placeholder="Search for fruit salad combos"
-          style={{ flex: 1, fontSize: 16, color: Colors.hero_foreground_light }}
+          style={{ flex: 1, fontSize: 16 }}
         ></TextInput>
       </View>
       <View
@@ -171,11 +178,36 @@ const SearchArea = () => {
     </View>
   );
 };
+const RecommendedCombo = () => {
+  const { data } = useAppContext();
+  return (
+    <View>
+      <Text
+        style={{
+          fontSize: 24,
+          fontWeight: 600,
+          marginTop: 24,
+          marginBottom: 16,
+          color: Colors.foreground_header,
+        }}
+      >
+        Recommended Combo
+      </Text>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        <View style={{ flexDirection: "row", gap: 6 }}>
+          {data.map((item, i) => (
+            <FruitCard data={item} key={i} />
+          ))}
+        </View>
+      </ScrollView>
+    </View>
+  );
+};
 const HomeScreen = () => {
   return (
     <>
       <StatusBar backgroundColor="white" />
-      <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
+      <SafeAreaView style={{ backgroundColor: "#f8fafc", flex: 1 }}>
         <View
           style={{
             flex: 1,
@@ -185,6 +217,7 @@ const HomeScreen = () => {
         >
           <Navbar />
           <SearchArea />
+          <RecommendedCombo />
         </View>
       </SafeAreaView>
     </>
